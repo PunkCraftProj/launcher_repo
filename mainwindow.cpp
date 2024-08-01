@@ -134,25 +134,7 @@ void MainWindow::on_startBtn_clicked()
     process->setWorkingDirectory(workDir);
     process->start(program, arguments);
 
-    close();
-
-    if (!process->waitForStarted()) {
-        qDebug() << "Error: " << process->errorString();
-        return;
-    }
-
-    // Ожидание завершения
-    if (!process->waitForFinished()) {
-        qDebug() << "Error: " << process->errorString();
-        return;
-    }
-
-    // Опциональный вывод стандартного вывода и ошибок процесса
-    QString stdOutput(process->readAllStandardOutput());
-    QString stdError(process->readAllStandardError());
-
-    qDebug() << "Standard Output: " << stdOutput;
-    qDebug() << "Standard Error: " << stdError;
+    hide();
 }
 
 void MainWindow::on_settingsBtn_clicked()
