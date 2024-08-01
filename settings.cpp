@@ -10,6 +10,11 @@ Settings::Settings(QWidget *parent)
 {
     ui->setupUi(this);
     setFixedSize(850, 470);
+
+    // Установить значение по умолчанию для ramLine
+    if (ui->ramLine->text().isEmpty() || ui->ramLine->text().toInt() == 0) {
+        ui->ramLine->setText("8196");
+    }
 }
 
 Settings::~Settings()
@@ -18,13 +23,12 @@ Settings::~Settings()
 }
 
 QString Settings::getRAM() const {
-    double ramValue = this->ui->ramLine->text().toDouble();
-    double convertedRamValue = ramValue * 1.12485939;
-    return QString::number(convertedRamValue, 'f', 0);
+    // Возвращает текстовое значение без каких либо вычислений
+    return this->ui->ramLine->text();
 }
 
 void Settings::on_saveBtn_clicked()
 {
+    // Закрытие диалога при нажатии на кнопку save
     close();
 }
-
