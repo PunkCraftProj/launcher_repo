@@ -15,6 +15,7 @@ SOURCES += \
     settings.cpp
 
 HEADERS += \
+    connection.h \
     mainwindow.h \
     registration.h \
     settings.h
@@ -28,3 +29,10 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/'../../../Program Files/PostgreSQL/16/release/' -liconv
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/'../../../Program Files/PostgreSQL/16/debug/' -liconv
+else:unix: LIBS += -L$$PWD/'../../../Program Files/PostgreSQL/16/' -liconv
+
+INCLUDEPATH += $$PWD/'../../../Program Files/PostgreSQL/16/lib'
+DEPENDPATH += $$PWD/'../../../Program Files/PostgreSQL/16/lib'
