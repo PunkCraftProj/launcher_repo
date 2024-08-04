@@ -30,9 +30,9 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/'../../../Program Files/PostgreSQL/16/release/' -liconv
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/'../../../Program Files/PostgreSQL/16/debug/' -liconv
-else:unix: LIBS += -L$$PWD/'../../../Program Files/PostgreSQL/16/' -liconv
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/'../../../Program Files/PostgreSQL/14/release/' -liconv
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/'../../../Program Files/PostgreSQL/14/debug/' -liconv
+else:unix: LIBS += -L$$PWD/'../../../Program Files/PostgreSQL/114/' -liconv
 
-INCLUDEPATH += $$PWD/'../../../Program Files/PostgreSQL/16/lib'
-DEPENDPATH += $$PWD/'../../../Program Files/PostgreSQL/16/lib'
+INCLUDEPATH += $$PWD/'../../../Program Files/PostgreSQL/14/lib'
+DEPENDPATH += $$PWD/'../../../Program Files/PostgreSQL/14/lib'
