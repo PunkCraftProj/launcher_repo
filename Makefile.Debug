@@ -64,7 +64,7 @@ OBJECTS       = debug/main.o \
 		debug/moc_registration.o \
 		debug/moc_settings.o
 
-DIST          =  json.h \
+DIST          = .gitignore json.h \
 		mainwindow.h \
 		registration.h \
 		settings.h main.cpp \

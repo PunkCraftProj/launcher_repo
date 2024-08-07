@@ -19,6 +19,6 @@ Registration::~Registration()
 
 void Registration::on_registrationBtn_clicked()
 {
-
+    // TODO "Registration and authorization"
 }
 

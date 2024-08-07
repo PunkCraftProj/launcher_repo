@@ -64,7 +64,7 @@ OBJECTS       = release/main.o \
 		release/moc_registration.o \
 		release/moc_settings.o
 
-DIST          =  json.h \
+DIST          = .gitignore json.h \
 		mainwindow.h \
 		registration.h \
 		settings.h main.cpp \
