@@ -32,7 +32,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/'../../../Program Files/PostgreSQL/14/release/' -liconv
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/'../../../Program Files/PostgreSQL/14/debug/' -liconv
-else:unix: LIBS += -L$$PWD/'../../../Program Files/PostgreSQL/114/' -liconv
+else:unix: LIBS += -L$$PWD/'../../../Program Files/PostgreSQL/14/' -liconv
 
 INCLUDEPATH += $$PWD/'../../../Program Files/PostgreSQL/14/lib'
 DEPENDPATH += $$PWD/'../../../Program Files/PostgreSQL/14/lib'
