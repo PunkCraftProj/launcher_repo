@@ -1,6 +1,7 @@
 #include "mainwindow.h"
-#include "connection.h"
+#include "qapplication.h"
 
+#include <QObject>
 
 int main(int argc, char *argv[])
 {
@@ -8,10 +9,6 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.setFixedSize(1000, 600);
     w.show();
-
-    if (!connectToDataBase()) {
-        return -1;
-    }
 
     return a.exec();
 }

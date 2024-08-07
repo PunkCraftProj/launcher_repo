@@ -1,8 +1,10 @@
 #include "settings.h"
 #include "ui_settings.h"
+#include "json.h"
 
 #include <QString>
 #include <QDebug>
+
 
 Settings::Settings(QWidget *parent)
     : QDialog(parent)
@@ -10,6 +12,8 @@ Settings::Settings(QWidget *parent)
 {
     ui->setupUi(this);
     setFixedSize(850, 470);
+
+    this->ui->ramLine->setText(loadJSON());
 }
 
 Settings::~Settings()
@@ -25,6 +29,6 @@ QString Settings::getRAM() const {
 
 void Settings::on_saveBtn_clicked()
 {
+    saveJSON(this->ui->ramLine->text());
     close();
 }
-
