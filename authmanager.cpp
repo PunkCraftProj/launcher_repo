@@ -3,6 +3,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QNetworkRequest>
+#include <QFile>
 
 AuthManager::AuthManager(QObject *parent) : QObject(parent) {
     networkManager = new QNetworkAccessManager(this);
@@ -18,10 +19,16 @@ void AuthManager::registerUser(const QString &login, const QString &password) {
     QJsonDocument jsonDoc(jsonObj);
     QByteArray data = jsonDoc.toJson();
 
+    QFile file("user.json");
+    if (file.open(QIODevice::WriteOnly)) {
+        file.write(jsonDoc.toJson());
+        file.close();
+    }
+
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     QNetworkReply *reply = networkManager->post(request, data);
-    connect(reply, &QNetworkReply::finished, this, &AuthManager::onRegisterFinished);
+    // connect(reply, &QNetworkReply::finished, this, &AuthManager::onRegisterFinished);
 }
 
 void AuthManager::loginUser(const QString &login, const QString &password) {
@@ -37,7 +44,7 @@ void AuthManager::loginUser(const QString &login, const QString &password) {
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     QNetworkReply *reply = networkManager->post(request, data);
-    connect(reply, &QNetworkReply::finished, this, &AuthManager::onLoginFinished);
+    // connect(reply, &QNetworkReply::finished, this, &AuthManager::onLoginFinished);
 }
 
 void AuthManager::onRegisterFinished(QNetworkReply *reply) {

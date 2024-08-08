@@ -1,5 +1,6 @@
 #include "registration.h"
 #include "ui_registration.h"
+#include "authmanager.h"
 
 #include <QLineEdit>
 
@@ -19,6 +20,9 @@ Registration::~Registration()
 
 void Registration::on_registrationBtn_clicked()
 {
-    // TODO "Registration and authorization"
+    AuthManager authManager;
+
+    authManager.registerUser(this->ui->loginLine->text(), this->ui->passLine->text());
+    close();
 }
 

@@ -291,6 +291,7 @@ Makefile: PunkCraft_Launcher.pro ../../../Qt/6.7.2/mingw_64/mkspecs/win32-g++/qm
 		PunkCraft_Launcher.pro \
 		../../../Qt/6.7.2/mingw_64/lib/Qt6Widgets.prl \
 		../../../Qt/6.7.2/mingw_64/lib/Qt6Gui.prl \
+		../../../Qt/6.7.2/mingw_64/lib/Qt6Network.prl \
 		../../../Qt/6.7.2/mingw_64/lib/Qt6Core.prl \
 		../../../Qt/6.7.2/mingw_64/lib/Qt6EntryPoint.prl \
 		../../../Qt/6.7.2/mingw_64/mkspecs/features/build_pass.prf
@@ -516,6 +517,7 @@ Makefile: PunkCraft_Launcher.pro ../../../Qt/6.7.2/mingw_64/mkspecs/win32-g++/qm
 PunkCraft_Launcher.pro:
 ../../../Qt/6.7.2/mingw_64/lib/Qt6Widgets.prl:
 ../../../Qt/6.7.2/mingw_64/lib/Qt6Gui.prl:
+../../../Qt/6.7.2/mingw_64/lib/Qt6Network.prl:
 ../../../Qt/6.7.2/mingw_64/lib/Qt6Core.prl:
 ../../../Qt/6.7.2/mingw_64/lib/Qt6EntryPoint.prl:
 ../../../Qt/6.7.2/mingw_64/mkspecs/features/build_pass.prf:
