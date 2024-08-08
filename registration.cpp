@@ -23,6 +23,5 @@ void Registration::on_registrationBtn_clicked()
     AuthManager authManager;
 
     authManager.registerUser(this->ui->loginLine->text(), this->ui->passLine->text());
-    close();
 }
 

@@ -4,14 +4,20 @@
 #include <QJsonObject>
 #include <QNetworkRequest>
 #include <QFile>
+#include <QDebug>
 
 AuthManager::AuthManager(QObject *parent) : QObject(parent) {
     networkManager = new QNetworkAccessManager(this);
 }
 
 void AuthManager::registerUser(const QString &login, const QString &password) {
-    QUrl url("server");
+    QUrl url("http://localhost:5000/api/endpoint");
     QNetworkRequest request(url);
+
+    if (login.isEmpty() || password.isEmpty()) {
+        qDebug() << "Login or password is empty!";
+        return;
+    }
 
     QJsonObject jsonObj;
     jsonObj["login"] = login;
@@ -19,20 +25,26 @@ void AuthManager::registerUser(const QString &login, const QString &password) {
     QJsonDocument jsonDoc(jsonObj);
     QByteArray data = jsonDoc.toJson();
 
-    QFile file("user.json");
-    if (file.open(QIODevice::WriteOnly)) {
-        file.write(jsonDoc.toJson());
-        file.close();
-    }
-
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
-    QNetworkReply *reply = networkManager->post(request, data);
-    // connect(reply, &QNetworkReply::finished, this, &AuthManager::onRegisterFinished);
+    QNetworkReply*reply = networkManager->post(request, data);
+
+    qDebug() << "Request Data: " << data;
+
+    QObject::connect(reply, &QNetworkReply::finished, [reply]() {
+        if (reply->error() == QNetworkReply::NoError) {
+            QByteArray response_data = reply->readAll();
+            qDebug() << "Response: " << response_data;
+        } else {
+            qDebug() << "Error: " << reply->errorString();
+            qDebug() << "HTTP Status code:" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+        }
+        reply->deleteLater();
+    });
 }
 
 void AuthManager::loginUser(const QString &login, const QString &password) {
-    QUrl url("server");
+    QUrl url("http://localhost:5000/api/endpoint");
     QNetworkRequest request(url);
 
     QJsonObject jsonObj;
@@ -44,7 +56,7 @@ void AuthManager::loginUser(const QString &login, const QString &password) {
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     QNetworkReply *reply = networkManager->post(request, data);
-    // connect(reply, &QNetworkReply::finished, this, &AuthManager::onLoginFinished);
+
 }
 
 void AuthManager::onRegisterFinished(QNetworkReply *reply) {
