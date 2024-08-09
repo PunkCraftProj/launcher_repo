@@ -2,6 +2,7 @@
 #define REGISTRATION_H
 
 #include <QDialog>
+#include <QtNetwork>
 
 namespace Ui {
 class Registration;
@@ -17,9 +18,12 @@ public:
 
 private slots:
     void on_registrationBtn_clicked();
+    void getReplyFinished();
+    void readyReadReply();
 
 private:
     Ui::Registration *ui;
+    QNetworkReply *reply;
 };
 
 #endif // REGISTRATION_H

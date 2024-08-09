@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QProcess>
 #include <settings.h>
+#include <QtCore>
+#include <QtGui>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

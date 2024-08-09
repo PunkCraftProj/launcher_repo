@@ -7,6 +7,8 @@
 *****************************************************************************/
 
 #include "../registration.h"
+#include <QtNetwork/QSslPreSharedKeyAuthenticator>
+#include <QtNetwork/QSslError>
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>
@@ -37,7 +39,9 @@ struct qt_meta_stringdata_CLASSRegistrationENDCLASS_t {};
 constexpr auto qt_meta_stringdata_CLASSRegistrationENDCLASS = QtMocHelpers::stringData(
     "Registration",
     "on_registrationBtn_clicked",
-    ""
+    "",
+    "getReplyFinished",
+    "readyReadReply"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -50,7 +54,7 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSRegistrationENDCLASS[] = {
       12,       // revision
        0,       // classname
        0,    0, // classinfo
-       1,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -58,9 +62,13 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSRegistrationENDCLASS[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
-       1,    0,   20,    2, 0x08,    1 /* Private */,
+       1,    0,   32,    2, 0x08,    1 /* Private */,
+       3,    0,   33,    2, 0x08,    2 /* Private */,
+       4,    0,   34,    2, 0x08,    3 /* Private */,
 
  // slots: parameters
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
 
        0        // eod
@@ -76,6 +84,10 @@ Q_CONSTINIT const QMetaObject Registration::staticMetaObject = { {
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<Registration, std::true_type>,
         // method 'on_registrationBtn_clicked'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'getReplyFinished'
+        QtPrivate::TypeAndForceComplete<void, std::false_type>,
+        // method 'readyReadReply'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -88,6 +100,8 @@ void Registration::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
         (void)_t;
         switch (_id) {
         case 0: _t->on_registrationBtn_clicked(); break;
+        case 1: _t->getReplyFinished(); break;
+        case 2: _t->readyReadReply(); break;
         default: ;
         }
     }
@@ -113,13 +127,13 @@ int Registration::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 1)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 1;
+        _id -= 3;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 1)
+        if (_id < 3)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 1;
+        _id -= 3;
     }
     return _id;
 }
