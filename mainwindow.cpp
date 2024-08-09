@@ -167,5 +167,40 @@ void MainWindow::on_loginBtn_clicked()
     }
     // ------------------------------------------- //
 
+
     // ------------------------------------------- //
+    QString login = this->ui->loginLineLog->text();
+    QString password = this->ui->passLineLog->text();
+
+    QUrl url = QUrl(QString("http://localhost:5000/api/login"));
+    QNetworkRequest request(url);
+
+    if (login.isEmpty() || password.isEmpty()) {
+        qDebug() << "Login or password is empty!";
+    }
+
+    QJsonObject jsonObjLogin;
+    jsonObjLogin["login"] = login;
+    jsonObjLogin["password"] = password;
+    QJsonDocument jsonDocLogin(jsonObjLogin);
+
+    QByteArray data = jsonDocLogin.toJson();
+
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+
+    reply = manager->post(request, data);
+    connect(reply, SIGNAL(finished()), this, SLOT(getReplyFinished()));
+    connect(reply, SIGNAL(finished()), this, SLOT(readyReadReply()));
+    // ------------------------------------------- //
+}
+
+void MainWindow::getReplyFinished() {
+    reply->deleteLater();
+}
+
+void MainWindow::readyReadReply() {
+    QString answer = QString::fromUtf8(reply->readAll());
+    qDebug() << "Reply: " << answer;
 }

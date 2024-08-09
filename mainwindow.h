@@ -6,6 +6,7 @@
 #include <settings.h>
 #include <QtCore>
 #include <QtGui>
+#include <QtNetwork>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -30,9 +31,14 @@ private slots:
 
     void on_loginBtn_clicked();
 
+    void getReplyFinished();
+
+    void readyReadReply();
+
 private:
     Ui::MainWindow *ui;
     QProcess *process;
     Settings settingsDialog;
+    QNetworkReply *reply;
 };
 #endif // MAINWINDOW_H
