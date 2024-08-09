@@ -3,7 +3,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "registration.h"
-#include <settings.h>
+#include "settings.h"
 
 #include <QProcess>
 #include <QLineEdit>
@@ -17,6 +17,16 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->passLineLog->setEchoMode(QLineEdit::Password);
+
+    QFile file("settingsLogin.json");
+    if (file.open(QIODevice::ReadOnly)) {
+        QByteArray data = file.readAll();
+        file.close();
+
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
+        QJsonObject jsonObj = jsonDoc.object();
+        this->ui->dontLeaveCheck->setChecked(jsonObj["stay_logged"].toBool());
+    }
 }
 
 MainWindow::~MainWindow()
@@ -143,3 +153,19 @@ void MainWindow::on_settingsBtn_clicked()
     settingsDialog.exec();
 }
 
+void MainWindow::on_loginBtn_clicked()
+{
+    // ------------------------------------------- //
+    QJsonObject jsonObj;
+    jsonObj["stay_logged"] = this->ui->dontLeaveCheck->isChecked();
+
+    QJsonDocument jsonDoc(jsonObj);
+    QFile file("settingsLogin.json");
+    if (file.open(QIODevice::WriteOnly)) {
+        file.write(jsonDoc.toJson());
+        file.close();
+    }
+    // ------------------------------------------- //
+
+    // ------------------------------------------- //
+}

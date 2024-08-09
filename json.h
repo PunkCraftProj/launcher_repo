@@ -7,7 +7,7 @@
 #include <QString>
 
 QString loadJSON() {
-    QFile file("settings.json");
+    QFile file("settingsGame.json");
     if (!file.open(QIODevice::ReadOnly)) {
         return "";
     }
@@ -25,7 +25,7 @@ void saveJSON(const QString &value) {
     jsonObj["RAM"] = value;
 
     QJsonDocument jsonDoc(jsonObj);
-    QFile file("settings.json");
+    QFile file("settingsGame.json");
     if (file.open(QIODevice::WriteOnly)) {
         file.write(jsonDoc.toJson());
         file.close();

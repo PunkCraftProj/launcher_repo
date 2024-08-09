@@ -28,6 +28,8 @@ private slots:
 
     void on_settingsBtn_clicked();
 
+    void on_loginBtn_clicked();
+
 private:
     Ui::MainWindow *ui;
     QProcess *process;
