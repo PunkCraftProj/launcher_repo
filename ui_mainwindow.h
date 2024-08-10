@@ -32,6 +32,7 @@ public:
     QLineEdit *loginLineLog;
     QLineEdit *passLineLog;
     QCheckBox *dontLeaveCheck;
+    QLabel *infoLabel;
     QPushButton *loginBtn;
     QLabel *label;
     QPushButton *regBtn;
@@ -49,7 +50,7 @@ public:
         centralwidget->setObjectName("centralwidget");
         verticalLayoutWidget = new QWidget(centralwidget);
         verticalLayoutWidget->setObjectName("verticalLayoutWidget");
-        verticalLayoutWidget->setGeometry(QRect(50, 110, 176, 241));
+        verticalLayoutWidget->setGeometry(QRect(50, 110, 201, 241));
         verticalLayout = new QVBoxLayout(verticalLayoutWidget);
         verticalLayout->setObjectName("verticalLayout");
         verticalLayout->setContentsMargins(0, 0, 0, 0);
@@ -69,6 +70,12 @@ public:
         dontLeaveCheck->setObjectName("dontLeaveCheck");
 
         verticalLayout->addWidget(dontLeaveCheck);
+
+        infoLabel = new QLabel(verticalLayoutWidget);
+        infoLabel->setObjectName("infoLabel");
+        infoLabel->setAlignment(Qt::AlignCenter);
+
+        verticalLayout->addWidget(infoLabel);
 
         loginBtn = new QPushButton(verticalLayoutWidget);
         loginBtn->setObjectName("loginBtn");
@@ -111,6 +118,7 @@ public:
         loginLineLog->setPlaceholderText(QCoreApplication::translate("MainWindow", "\320\233\320\276\320\263\320\270\320\275", nullptr));
         passLineLog->setPlaceholderText(QCoreApplication::translate("MainWindow", "\320\237\320\260\321\200\320\276\320\273\321\214", nullptr));
         dontLeaveCheck->setText(QCoreApplication::translate("MainWindow", "\320\235\320\265 \320\262\321\213\321\205\320\276\320\264\320\270\321\202\321\214 \321\201 \320\260\320\272\320\272\320\260\321\203\320\275\321\202\320\260", nullptr));
+        infoLabel->setText(QString());
         loginBtn->setText(QCoreApplication::translate("MainWindow", "\320\222\320\276\320\271\321\202\320\270", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "\320\235\320\265\321\202 \320\260\320\272\320\272\320\260\321\203\320\275\321\202\320\260? \320\227\320\260\321\200\320\265\320\263\320\270\321\201\321\202\321\200\320\270\321\200\321\203\320\271\321\201\321\217", nullptr));
         regBtn->setText(QCoreApplication::translate("MainWindow", "\320\240\320\265\320\263\320\270\321\201\321\202\321\200\320\260\321\206\320\270\321\217", nullptr));

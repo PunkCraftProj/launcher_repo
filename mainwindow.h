@@ -35,10 +35,15 @@ private slots:
 
     void readyReadReply();
 
+    void loginUser(const QString &login, const QString &password);
+
+    void loadSettings();
+
 private:
     Ui::MainWindow *ui;
     QProcess *process;
     Settings settingsDialog;
     QNetworkReply *reply;
+    bool isLogged;
 };
 #endif // MAINWINDOW_H

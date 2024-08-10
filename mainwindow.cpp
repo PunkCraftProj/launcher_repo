@@ -1,5 +1,3 @@
-#include <cstdlib>
-
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "registration.h"
@@ -17,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->passLineLog->setEchoMode(QLineEdit::Password);
+    ui->startBtn->setEnabled(false);
 
     QFile file("settingsLogin.json");
     if (file.open(QIODevice::ReadOnly)) {
@@ -27,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent)
         QJsonObject jsonObj = jsonDoc.object();
         this->ui->dontLeaveCheck->setChecked(jsonObj["stay_logged"].toBool());
     }
+
+    loadSettings();
 }
 
 MainWindow::~MainWindow()
@@ -153,31 +154,41 @@ void MainWindow::on_settingsBtn_clicked()
     settingsDialog.exec();
 }
 
-void MainWindow::on_loginBtn_clicked()
-{
-    // ------------------------------------------- //
-    QJsonObject jsonObj;
-    jsonObj["stay_logged"] = this->ui->dontLeaveCheck->isChecked();
-
-    QJsonDocument jsonDoc(jsonObj);
+void MainWindow::loadSettings() {
     QFile file("settingsLogin.json");
-    if (file.open(QIODevice::WriteOnly)) {
-        file.write(jsonDoc.toJson());
-        file.close();
+    if (!file.open(QIODevice::ReadOnly)) {
+        return;
     }
-    // ------------------------------------------- //
 
+    QByteArray data = file.readAll();
+    file.close();
 
-    // ------------------------------------------- //
-    QString login = this->ui->loginLineLog->text();
-    QString password = this->ui->passLineLog->text();
+    QJsonParseError jsonError;
+    QJsonDocument jsonResponse = QJsonDocument::fromJson(data, &jsonError);
 
-    QUrl url = QUrl(QString("http://localhost:5000/api/login"));
+    if (jsonError.error != QJsonParseError::NoError) {
+        qDebug() << "JSON Parse Error: " << jsonError.errorString();
+        return;
+    }
+
+    QJsonObject jsonObject = jsonResponse.object();
+
+    if (jsonObject.contains("stay_logged") && jsonObject["stay_logged"].toBool() &&
+        jsonObject.contains("login") && jsonObject.contains("password")) {
+        QString login = jsonObject["login"].toString();
+        QString password = jsonObject["password"].toString();
+
+        this->ui->loginLineLog->setText(login);
+        this->ui->passLineLog->setText(password);
+        this->ui->dontLeaveCheck->setChecked(true);
+
+        loginUser(login, password);
+    }
+}
+
+void MainWindow::loginUser(const QString &login, const QString &password) {
+    QUrl url = QUrl(QString("http://95.165.135.233:5000/api/login"));
     QNetworkRequest request(url);
-
-    if (login.isEmpty() || password.isEmpty()) {
-        qDebug() << "Login or password is empty!";
-    }
 
     QJsonObject jsonObjLogin;
     jsonObjLogin["login"] = login;
@@ -189,11 +200,30 @@ void MainWindow::on_loginBtn_clicked()
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-
     reply = manager->post(request, data);
+
     connect(reply, SIGNAL(finished()), this, SLOT(getReplyFinished()));
     connect(reply, SIGNAL(finished()), this, SLOT(readyReadReply()));
-    // ------------------------------------------- //
+}
+
+void MainWindow::on_loginBtn_clicked()
+{
+    QJsonObject jsonObj;
+    jsonObj["stay_logged"] = this->ui->dontLeaveCheck->isChecked();
+    jsonObj["login"] = this->ui->loginLineLog->text();
+    jsonObj["password"] = this->ui->passLineLog->text();
+
+    QJsonDocument jsonDoc(jsonObj);
+    QFile file("settingsLogin.json");
+    if (file.open(QIODevice::WriteOnly)) {
+        file.write(jsonDoc.toJson());
+        file.close();
+    }
+
+    QString login = this->ui->loginLineLog->text();
+    QString password = this->ui->passLineLog->text();
+
+    loginUser(login, password);
 }
 
 void MainWindow::getReplyFinished() {
@@ -203,4 +233,30 @@ void MainWindow::getReplyFinished() {
 void MainWindow::readyReadReply() {
     QString answer = QString::fromUtf8(reply->readAll());
     qDebug() << "Reply: " << answer;
+
+    QJsonParseError jsonError;
+    QJsonDocument jsonResponse = QJsonDocument::fromJson(answer.toUtf8(), &jsonError);
+
+    if (jsonError.error != QJsonParseError::NoError) {
+        qDebug() << "JSON Parse Error: " << jsonError.errorString();
+        this->ui->infoLabel->setText("Ошибка ответа от сервера");
+    }
+
+    QJsonObject jsonObject = jsonResponse.object();
+
+    if (jsonObject.contains("error")) {
+        QString error = jsonObject["error"].toString();
+        if (error == "Invalid login or password!") {
+            this->ui->infoLabel->setText("Неправильный логин или пароль");
+        } else if (error == "Login and password are required!") {
+            this->ui->infoLabel->setText("Введите данные");
+        }
+    }
+    if (jsonObject.contains("message")) {
+        QString message = jsonObject["message"].toString();
+        if (message == "Login successful!") {
+            this->ui->infoLabel->setText("Вы залогинились");
+            this->ui->startBtn->setEnabled(true);
+        }
+    }
 }

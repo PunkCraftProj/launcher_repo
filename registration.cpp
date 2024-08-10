@@ -24,7 +24,7 @@ void Registration::on_registrationBtn_clicked()
     QString login = this->ui->loginLine->text();
     QString password = this->ui->passLine->text();
 
-    QUrl url = QUrl(QString("http://localhost:5000/api/registration"));
+    QUrl url = QUrl(QString("http://95.165.135.233:5000/api/registration"));
     QNetworkRequest request(url);
 
     if (login.isEmpty() || password.isEmpty()) {

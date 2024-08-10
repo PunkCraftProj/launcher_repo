@@ -19,7 +19,7 @@
      <rect>
       <x>50</x>
       <y>110</y>
-      <width>176</width>
+      <width>201</width>
       <height>241</height>
      </rect>
     </property>
@@ -48,6 +48,16 @@
       <widget class="QCheckBox" name="dontLeaveCheck">
        <property name="text">
         <string>Не выходить с аккаунта</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="infoLabel">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
